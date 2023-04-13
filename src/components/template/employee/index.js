@@ -58,8 +58,9 @@ function Employee(props) {
 						icon: "success",
 						title: "Berhasil!",
 						text: "Data berhasil dihapus!",
+					}).then((res) => {
+						window.location.reload();
 					});
-					window.location.reload();
 				});
 			}
 		});

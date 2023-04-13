@@ -22,14 +22,18 @@ function ModalView({ show, hide, empById, methodReq }) {
 						icon: "success",
 						title: "Berhasil!",
 						text: "Data berhasil ditambahkan!",
+					}).then((res) => {
+						window.location.reload();
 					});
 				})
 				.catch((err) => {
 					console.log(err);
 				});
-			window.location.reload();
 		} else if (methodReq === "put") {
-			API.updateEmployee(empById.data.id, { fullname, email }).then((res) => {
+			API.updateEmployee(empById.data.id, {
+				fullname: fullname === "" ? empById.data.fullname : fullname,
+				email: email === "" ? empById.data.email : email,
+			}).then((res) => {
 				setCloseModalAfterInsert(false);
 				setFullname("");
 				setEmail("");
@@ -37,9 +41,10 @@ function ModalView({ show, hide, empById, methodReq }) {
 					icon: "success",
 					title: "Berhasil!",
 					text: "Data berhasil diubah!",
+				}).then((res) => {
+					window.location.reload();
 				});
 			});
-			window.location.reload();
 		}
 	};
 
@@ -57,8 +62,10 @@ function ModalView({ show, hide, empById, methodReq }) {
 								type="text"
 								placeholder="Insert your fullname"
 								name="fullname"
-								defaultValue={empById.data.fullname}
-								// value={empById.data.fullname || ""}
+								defaultValue={
+									empById.data.fullname === null ? fullname : empById.data.fullname
+								}
+								// value={empById.data.fullname === null ? fullname : empById.data.fullname}
 								onChange={(e) => setFullname(e.target.value)}
 							/>
 						</Form.Group>
@@ -69,8 +76,8 @@ function ModalView({ show, hide, empById, methodReq }) {
 								type="email"
 								placeholder="Insert your email"
 								name="email"
-								defaultValue={empById.data.email}
-								// value={empById.data.email || ""}
+								defaultValue={empById.data.email === null ? email : empById.data.email}
+								// value={empById.data.email || email}
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</Form.Group>
